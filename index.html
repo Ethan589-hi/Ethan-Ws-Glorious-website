@@ -12,7 +12,7 @@
     <title>Calculator</title>
     
     <style>
-        /* --- DECOY CALCULATOR STYLES --- */
+  /* --- DECOY CALCULATOR STYLES --- */
         #decoy-cover {
             background-color: #f4f4f6;
             color: #333;
@@ -27,6 +27,7 @@
             position: relative;
         }
 
+        /* Fixed Trigger Image - Full visibility without cropping */
         .secret-trigger {
             position: absolute;
             top: 15px;
@@ -151,6 +152,31 @@
         h2 { text-align: left; max-width: 1200px; margin: 30px auto 10px auto; font-size: 1.8rem; padding-left: 20px; }
 
         .arcade-screen-container { max-width: 1160px; margin: 20px auto; padding: 0 20px; }
+        
+        /* NEW: Theater Controls Layout */
+        .theater-controls {
+            max-width: 1160px;
+            margin: 0 auto 10px auto;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        /* NEW: Full Screen Button Style */
+        .fullscreen-btn {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background 0.2s, transform 0.1s;
+        }
+
+        .fullscreen-btn:hover { background-color: #1557b0; transform: scale(1.03); }
+        .fullscreen-btn:active { transform: scale(0.98); }
+
         .game-frame-wrapper {
             position: relative;
             width: 100%;
@@ -283,12 +309,13 @@
         </div>
 
         <div id="live-player-section" class="arcade-screen-container hidden">
-            <h2 id="now-playing-title">Now Playing</h2>
+            <div class="theater-controls">
+                <button class="fullscreen-btn" onclick="goFullScreen()">🎴 Go Full Screen</button>
+            </div>
             <div class="game-frame-wrapper">
                 <iframe id="arcade-viewport" src="" allowfullscreen></iframe>
             </div>
         </div>
-
         <h2>All Games</h2>
         <div class="game-grid" id="all-games-grid">
 
