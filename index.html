@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -10,7 +11,7 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <title>Ethan Ws Glorious Website</title>
-    
+    <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com/favicon.ico">
     <style>
         body {
             margin: 0;
@@ -113,7 +114,7 @@
             color: #ffffff;
         }
 
-        /* Favorite Star Styling */
+        /* Favorite Button Star Styling */
         .fav-star {
             position: absolute;
             top: 8px;
@@ -141,7 +142,7 @@
             color: #ffeb3b;
         }
 
-        /* Glowing Favourites Section Styling */
+        /* Glowing Favourites Area Styling */
         #favorites-grid .game-card {
             box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
             border: 1px solid rgba(0, 255, 204, 0.3);
@@ -185,110 +186,3 @@
         <div class="game-card" data-id="tetris">
             <button class="fav-star" onclick="toggleFavorite('tetris')">★</button>
             <a href="tetris.html" style="text-decoration: none; display: flex; flex-direction: column;">
-                <img class="game-icon" src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400" alt="Tetris">
-                <div class="game-title">Tetris</div>
-            </a>
-        </div>
-
-        <div class="game-card" data-id="cobb">
-            <button class="fav-star" onclick="toggleFavorite('cobb')">★</button>
-            <a href="https://html5.api.gamedistribution.com/embed/cobb-can-move/" target="_blank" style="text-decoration: none; display: flex; flex-direction: column;">
-                <img class="game-icon" src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" alt="Cobb Can Move">
-                <div class="game-title">Cobb Can Move</div>
-            </a>
-        </div>
-
-    </div>
-
-    <script>
-        // Background System
-        const backgrounds = [
-            "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986",
-            "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
-            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe",
-            "https://images.unsplash.com/photo-1550684848-fac1c5b4e853"
-        ];
-        let currentBgIndex = 0;
-
-        function changeBackground() {
-            currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
-            const newBg = backgrounds[currentBgIndex];
-            document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${newBg}')`;
-        }
-
-        function uploadBackground(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${e.target.result}')`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Tab Masking System (Updates multi-favicons dynamically)
-        let isMasked = false;
-        function toggleMask() {
-            const appleIcon = document.getElementById('apple-icon');
-            const fav32 = document.getElementById('favicon-32');
-            const fav16 = document.getElementById('favicon-16');
-
-            if (!isMasked) {
-                document.title = "About Blank";
-                if(appleIcon) appleIcon.setAttribute('href', 'https://www.google.com/favicon.ico');
-                if(fav32) fav32.setAttribute('href', 'https://www.google.com/favicon.ico');
-                if(fav16) fav16.setAttribute('href', 'https://www.google.com/favicon.ico');
-                isMasked = true;
-            } else {
-                document.title = "Ethan Ws Glorious Website";
-                if(appleIcon) appleIcon.setAttribute('href', '/apple-touch-icon.png');
-                if(fav32) fav32.setAttribute('href', '/favicon-32x32.png');
-                if(fav16) fav16.setAttribute('href', '/favicon-16x16.png');
-                isMasked = false;
-            }
-        }
-
-        // Favorites System
-        let favorites = JSON.parse(localStorage.getItem('arcadeFavorites')) || [];
-
-        function initFavorites() {
-            document.getElementById('favorites-grid').innerHTML = '';
-            
-            if (favorites.length === 0) {
-                document.getElementById('favorites-section').classList.add('hidden');
-            } else {
-                document.getElementById('favorites-section').classList.remove('hidden');
-            }
-
-            const allCards = document.querySelectorAll('#all-games-grid .game-card');
-            allCards.forEach(card => {
-                const id = card.getAttribute('data-id');
-                if (favorites.includes(id)) {
-                    card.classList.add('is-favorite');
-                    
-                    const clone = card.cloneNode(true);
-                    clone.querySelector('.fav-star').setAttribute('onclick', `toggleFavorite('${id}')`);
-                    document.getElementById('favorites-grid').appendChild(clone);
-                } else {
-                    card.classList.remove('is-favorite');
-                }
-            });
-        }
-
-        function toggleFavorite(id) {
-            if (favorites.includes(id)) {
-                favorites = favorites.filter(favId => favId !== id);
-            } else {
-                favorites.push(id);
-            }
-            localStorage.setItem('arcadeFavorites', JSON.stringify(favorites));
-            initFavorites();
-        }
-
-        window.onload = function() {
-            initFavorites();
-        };
-    </script>
-</body>
-</html>
