@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Arcade Space</title>
+    <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com/favicon.ico">
     <style>
-        /* Default background style */
         body {
             margin: 0;
             padding: 20px;
@@ -19,17 +19,16 @@
             transition: background 0.3s ease;
         }
 
-        /* Top control bar for buttons */
         .control-bar {
             max-width: 1200px;
             margin: 10px auto 20px auto;
             display: flex;
             gap: 10px;
             padding-left: 20px;
+            flex-wrap: wrap;
         }
 
-        /* Styling for both buttons */
-        .bg-btn, .upload-label {
+        .bg-btn, .upload-label, .mask-btn {
             background-color: #222;
             color: #fff;
             border: 1px solid #444;
@@ -44,11 +43,10 @@
             font-size: 0.9rem;
         }
 
-        .bg-btn:hover, .upload-label:hover {
+        .bg-btn:hover, .upload-label:hover, .mask-btn:hover {
             background-color: #333;
         }
 
-        /* Hide the ugly default browser file input button */
         #bg-upload {
             display: none;
         }
@@ -56,12 +54,11 @@
         h2 {
             text-align: left;
             max-width: 1200px;
-            margin: 20px auto 10px auto;
+            margin: 30px auto 10px auto;
             font-size: 1.8rem;
             padding-left: 20px;
         }
 
-        /* The Grid Layout */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -71,7 +68,6 @@
             padding: 20px;
         }
 
-        /* The Game Card container */
         .game-card {
             background: #181818;
             border-radius: 18px;
@@ -79,7 +75,8 @@
             display: flex;
             flex-direction: column;
             text-decoration: none;
-            transition: transform 0.15s ease;
+            position: relative;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
             box-shadow: 0 4px 12px rgba(0,0,0,0.6);
         }
 
@@ -87,14 +84,12 @@
             transform: scale(1.05);
         }
 
-        /* The game image */
         .game-icon {
             width: 100%;
             aspect-ratio: 1 / 1;
             object-fit: cover;
         }
 
-        /* The title bar under the image */
         .game-title {
             background-color: #111111;
             color: #b3b3b3;
@@ -111,6 +106,53 @@
         .game-card:hover .game-title {
             color: #ffffff;
         }
+
+        /* Favorite Button Star Styling */
+        .fav-star {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+
+        .fav-star:hover {
+            transform: scale(1.2);
+        }
+
+        .game-card.is-favorite .fav-star {
+            color: #ffeb3b;
+        }
+
+        /* Glowing Favourites Area Styling */
+        #favorites-grid .game-card {
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+        }
+
+        #favorites-grid .game-card .game-title {
+            color: #00ffcc;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.8);
+        }
+
+        #favorites-grid .game-card:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.8);
+        }
+
+        .hidden {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
@@ -122,51 +164,18 @@
             📤 Upload Wallpaper
         </label>
         <input type="file" id="bg-upload" accept="image/*" onchange="uploadBackground(event)">
+
+        <button class="mask-btn" onclick="toggleMask()">🎭 Mask Tab</button>
     </div>
 
-    <h2>New Games</h2>
-
-    <div class="game-grid">
-
-        <a href="tetris.html" class="game-card">
-            <img class="game-icon" src="https://images.squarespace-cdn.com/content/v1/5f04f767ded4a14e876e6190/1737088331767-PIWJ0E2KF3LP2K0BB586/Screenshot+2025-01-16+165721.png" alt="Tetris">
-            <div class="game-title">Tetris</div>
-        </a>
-
+    <div id="favorites-section" class="hidden">
+        <h2>⭐ Favourites</h2>
+        <div class="game-grid" id="favorites-grid"></div>
     </div>
 
-    <script>
-        // Preset backgrounds array
-        const backgrounds = [
-            "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986",
-            "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
-            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe",
-            "https://images.unsplash.com/photo-1550684848-fac1c5b4e853"
-        ];
+    <h2>All Games</h2>
+    <div class="game-grid" id="all-games-grid">
 
-        let currentBgIndex = 0;
-
-        // Function to cycle through preset images
-        function changeBackground() {
-            currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
-            const newBg = backgrounds[currentBgIndex];
-            document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${newBg}')`;
-        }
-
-        // Function to handle custom image uploads
-        function uploadBackground(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const customImageUrl = e.target.result;
-                    // Apply the uploaded image directly to the body background
-                    document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${customImageUrl}')`;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-    </script>
-
-</body>
-</html>
+        <div class="game-card" data-id="tetris">
+            <button class="fav-star" onclick="toggleFavorite('tetris')">★</button>
+            <a href="tetris.html" style="text-decoration: none; display: flex; flex-direction: column;">
