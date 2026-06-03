@@ -30,3 +30,265 @@
             margin: 10px auto 20px auto;
             display: flex;
             gap: 10px;
+            padding-left: 20px;
+            flex-wrap: wrap;
+        }
+
+        .bg-btn, .upload-label, .mask-btn {
+            background-color: #222;
+            color: #fff;
+            border: 1px solid #444;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .bg-btn:hover, .upload-label:hover, .mask-btn:hover {
+            background-color: #333;
+        }
+
+        #bg-upload {
+            display: none;
+        }
+
+        h2 {
+            text-align: left;
+            max-width: 1200px;
+            margin: 30px auto 10px auto;
+            font-size: 1.8rem;
+            padding-left: 20px;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .game-card {
+            background: #181818;
+            border-radius: 18px;
+            overflow: hidden; 
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            position: relative;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+        }
+
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+
+        .game-icon {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+        }
+
+        .game-title {
+            background-color: #111111;
+            color: #b3b3b3;
+            font-size: 0.85rem;
+            padding: 8px 4px;
+            text-align: center;
+            font-weight: bold;
+            border-top: 1px solid #222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .game-card:hover .game-title {
+            color: #ffffff;
+        }
+
+        /* Favorite Star Styling */
+        .fav-star {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border: none;
+            color: #ccc;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            transition: transform 0.2s;
+        }
+
+        .fav-star:hover {
+            transform: scale(1.2);
+        }
+
+        .game-card.is-favorite .fav-star {
+            color: #ffeb3b;
+        }
+
+        /* Glowing Favourites Section Styling */
+        #favorites-grid .game-card {
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            border: 1px solid rgba(0, 255, 204, 0.3);
+        }
+
+        #favorites-grid .game-card .game-title {
+            color: #00ffcc;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.8);
+        }
+
+        #favorites-grid .game-card:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.8);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="control-bar">
+        <button class="bg-btn" onclick="changeBackground()">🖼️ Preset Backgrounds</button>
+        
+        <label for="bg-upload" class="upload-label">
+            📤 Upload Wallpaper
+        </label>
+        <input type="file" id="bg-upload" accept="image/*" onchange="uploadBackground(event)">
+
+        <button class="mask-btn" onclick="toggleMask()">🎭 Mask Tab</button>
+    </div>
+
+    <div id="favorites-section" class="hidden">
+        <h2>⭐ Favourites</h2>
+        <div class="game-grid" id="favorites-grid"></div>
+    </div>
+
+    <h2>All Games</h2>
+    <div class="game-grid" id="all-games-grid">
+
+        <div class="game-card" data-id="tetris">
+            <button class="fav-star" onclick="toggleFavorite('tetris')">★</button>
+            <a href="tetris.html" style="text-decoration: none; display: flex; flex-direction: column;">
+                <img class="game-icon" src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400" alt="Tetris">
+                <div class="game-title">Tetris</div>
+            </a>
+        </div>
+
+        <div class="game-card" data-id="cobb">
+            <button class="fav-star" onclick="toggleFavorite('cobb')">★</button>
+            <a href="https://html5.api.gamedistribution.com/embed/cobb-can-move/" target="_blank" style="text-decoration: none; display: flex; flex-direction: column;">
+                <img class="game-icon" src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400" alt="Cobb Can Move">
+                <div class="game-title">Cobb Can Move</div>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Background System
+        const backgrounds = [
+            "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986",
+            "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
+            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe",
+            "https://images.unsplash.com/photo-1550684848-fac1c5b4e853"
+        ];
+        let currentBgIndex = 0;
+
+        function changeBackground() {
+            currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+            const newBg = backgrounds[currentBgIndex];
+            document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${newBg}')`;
+        }
+
+        function uploadBackground(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Tab Masking System (Updates multi-favicons dynamically)
+        let isMasked = false;
+        function toggleMask() {
+            const appleIcon = document.getElementById('apple-icon');
+            const fav32 = document.getElementById('favicon-32');
+            const fav16 = document.getElementById('favicon-16');
+
+            if (!isMasked) {
+                document.title = "About Blank";
+                if(appleIcon) appleIcon.setAttribute('href', 'https://www.google.com/favicon.ico');
+                if(fav32) fav32.setAttribute('href', 'https://www.google.com/favicon.ico');
+                if(fav16) fav16.setAttribute('href', 'https://www.google.com/favicon.ico');
+                isMasked = true;
+            } else {
+                document.title = "Ethan Ws Glorious Website";
+                if(appleIcon) appleIcon.setAttribute('href', '/apple-touch-icon.png');
+                if(fav32) fav32.setAttribute('href', '/favicon-32x32.png');
+                if(fav16) fav16.setAttribute('href', '/favicon-16x16.png');
+                isMasked = false;
+            }
+        }
+
+        // Favorites System
+        let favorites = JSON.parse(localStorage.getItem('arcadeFavorites')) || [];
+
+        function initFavorites() {
+            document.getElementById('favorites-grid').innerHTML = '';
+            
+            if (favorites.length === 0) {
+                document.getElementById('favorites-section').classList.add('hidden');
+            } else {
+                document.getElementById('favorites-section').classList.remove('hidden');
+            }
+
+            const allCards = document.querySelectorAll('#all-games-grid .game-card');
+            allCards.forEach(card => {
+                const id = card.getAttribute('data-id');
+                if (favorites.includes(id)) {
+                    card.classList.add('is-favorite');
+                    
+                    const clone = card.cloneNode(true);
+                    clone.querySelector('.fav-star').setAttribute('onclick', `toggleFavorite('${id}')`);
+                    document.getElementById('favorites-grid').appendChild(clone);
+                } else {
+                    card.classList.remove('is-favorite');
+                }
+            });
+        }
+
+        function toggleFavorite(id) {
+            if (favorites.includes(id)) {
+                favorites = favorites.filter(favId => favId !== id);
+            } else {
+                favorites.push(id);
+            }
+            localStorage.setItem('arcadeFavorites', JSON.stringify(favorites));
+            initFavorites();
+        }
+
+        window.onload = function() {
+            initFavorites();
+        };
+    </script>
+</body>
+</html>
