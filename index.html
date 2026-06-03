@@ -27,7 +27,7 @@
             position: relative;
         }
 
-      /* Fixed Trigger Image - Shows the full image without cropping */
+        /* Fixed Trigger Image - Full visibility without cropping */
         .secret-trigger {
             position: absolute;
             top: 15px;
@@ -36,12 +36,12 @@
             height: 65px;
             border-radius: 8px;
             cursor: pointer;
-            object-fit: contain; /* Changed from cover to contain */
-            background-color: #fff; /* Adds a clean white background behind the image if needed */
+            object-fit: contain; 
+            background-color: #fff;
             border: 1px solid #ccc;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: opacity 0.2s;
-            display: none; 
+            display: none; /* Hidden until triggered */
         }
 
         .secret-trigger:hover {
@@ -150,7 +150,6 @@
         .bg-btn:hover, .upload-label:hover, .mask-btn:hover { background-color: #333; }
         #bg-upload { display: none; }
 
-        /* SEARCH ENGINE BAR STYLING */
         .search-container {
             margin-left: auto;
             padding-right: 20px;
@@ -168,9 +167,7 @@
             transition: border-color 0.2s;
         }
 
-        .search-bar:focus {
-            border-color: #1a73e8;
-        }
+        .search-bar:focus { border-color: #1a73e8; }
 
         h2 {
             text-align: left;
@@ -180,7 +177,6 @@
             padding-left: 20px;
         }
 
-        /* LIVE PLAYING SCREEN CONTAINER */
         .arcade-screen-container {
             max-width: 1160px;
             margin: 20px auto;
@@ -204,7 +200,6 @@
             border: none;
         }
 
-        /* COMPACT ROW-BASED GRID (Screenshot Vibe) */
         .game-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
@@ -342,23 +337,17 @@
         <h2>All Games</h2>
         <div class="game-grid" id="all-games-grid">
 
-            <div class="game-card" data-id="tetris" onclick="loadGame('Tetris', 'https://jojogamer2020.github.io/NeonGames/games/tetris/')">
-                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('tetris')">★</button>
-                <img class="game-icon" src="https://cdn.pixabay.com/photo/2014/04/03/11/57/blocks-312610_640.png" alt="Tetris">
-                <div class="game-title">Tetris</div>
+            <div class="game-card" data-id="game-one" onclick="loadGame('Game One Title', 'gameone/index.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('game-one')">★</button>
+                <img class="game-icon" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" alt="Game One">
+                <div class="game-title">Game One Title</div>
             </div>
-
-            <div class="game-card" data-id="arcade-suite" onclick="loadGame('Arcade Suite', 'gamesuite.html')">
-    <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('arcade-suite')">★</button>
-    <img class="game-icon" src="https://cdn.pixabay.com/photo/2013/07/13/12/46/gaming-160293_640.png" alt="Arcade">
-    <div class="game-title">Arcade Suite</div>
-</div>
 
         </div>
     </div>
 
     <script>
-        // CALCULATOR ENGINE WITH PASSWORD CODE CONDITION
+        // CALCULATOR ENGINE 
         let currentInput = "0";
         const screen = document.getElementById("calc-screen");
 
@@ -367,20 +356,23 @@
         function pressOp(op) { currentInput += " " + op + " "; updateScreen(); }
         function clearScreen() { currentInput = "0"; updateScreen(); }
         
-      function calculate() { 
-            // 1. Instantly reveal the real site when the equals button is clicked
-            revealRealSite();
+        function calculate() { 
+            let trimmedInput = currentInput.trim();
             
-            // 2. Keep the calculator logic running normally in the background just in case
-            try { 
-                currentInput = String(Function('"use strict";return (' + currentInput + ')')()); 
-            } catch (e) { 
-                currentInput = "0"; 
-            } 
-            updateScreen(); 
+            // Trigger image only if the screen reads blank or exactly '0'
+            if (trimmedInput === "" || trimmedInput === "0") {
+                document.getElementById('takaba-img').style.display = 'block';
+            } else {
+                try { 
+                    currentInput = String(Function('"use strict";return (' + currentInput + ')')()); 
+                } catch (e) { 
+                    currentInput = "Error"; 
+                } 
+                updateScreen(); 
+            }
         }
 
-        // SEARCH BAR FILTER LOGIC
+        // SEARCH ENGINE BAR FILTER LOGIC
         function filterGames() {
             let filter = document.getElementById('arcade-search').value.toLowerCase();
             let cards = document.querySelectorAll('#all-games-grid .game-card');
@@ -395,7 +387,7 @@
             });
         }
 
-        // REVEAL ARCADE
+        // REVEAL SYSTEM
         function revealRealSite() {
             document.getElementById('decoy-cover').style.display = 'none';
             document.getElementById('main-arcade-content').style.display = 'block';
@@ -403,7 +395,7 @@
             document.title = "Ethan Ws Glorious Website";
         }
 
-        // IN-PAGE GAME LOADER SYSTEM
+        // IN-PAGE GAME VIEWPORT LOADER
         function loadGame(title, url) {
             const playerSection = document.getElementById('live-player-section');
             const viewport = document.getElementById('arcade-viewport');
@@ -415,17 +407,16 @@
             playerSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // BACKGROUND ENGINE
+        // WALLPAPER CONFIGURATION
         const backgrounds = [
             "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80",
-            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80"
+            "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80"
         ];
         let currentBgIndex = 0;
         function changeBackground() { currentBgIndex = (currentBgIndex + 1) % backgrounds.length; document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${backgrounds[currentBgIndex]}')`; }
         function uploadBackground(event) { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(e) { document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${e.target.result}')`; }; reader.readAsDataURL(file); } }
 
-        // TAB MASK
+        // MASK TAB INTERFACE
         let isMasked = false;
         function toggleMask() {
             const appleIcon = document.getElementById('apple-icon');
@@ -443,7 +434,7 @@
             }
         }
 
-        // FAVORITES ENGINE
+        // LOCAL FAVORITES STORAGE ENGINE
         let favorites = JSON.parse(localStorage.getItem('arcadeFavorites')) || [];
 
         function initFavorites() {
