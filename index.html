@@ -900,6 +900,22 @@
         }
 
         window.onload = initFavorites;
+        
+// THE ENGINE THAT MAKES CARDS CLICKABLE
+    function loadGame(title, url) {
+        const playerSection = document.getElementById('live-player-section');
+        const viewport = document.getElementById('arcade-viewport');
+        
+        if (!playerSection || !viewport) {
+            alert("Launcher Error: Missing player layout elements.");
+            return;
+        }
+
+        viewport.src = url;
+        playerSection.style.display = "block";
+        playerSection.scrollIntoView({ behavior: 'smooth' });
+    }
+        
     </script>
 </body>
 </html>
