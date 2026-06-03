@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
@@ -11,7 +10,7 @@
     <link rel="manifest" href="/site.webmanifest">
 
     <title>Ethan Ws Glorious Website</title>
-    <link id="favicon" rel="icon" type="image/x-icon" href="https://www.google.com/favicon.ico">
+    
     <style>
         body {
             margin: 0;
@@ -142,19 +141,19 @@
             color: #ffeb3b;
         }
 
-        /* Glowing Favourites Area Styling */
+        /* Glowing Favourites Section Styling (Yellow Accent) */
         #favorites-grid .game-card {
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
-            border: 1px solid rgba(0, 255, 204, 0.3);
+            box-shadow: 0 0 15px rgba(255, 235, 59, 0.5);
+            border: 1px solid rgba(255, 235, 59, 0.4);
         }
 
         #favorites-grid .game-card .game-title {
-            color: #00ffcc;
-            text-shadow: 0 0 8px rgba(0, 255, 204, 0.8);
+            color: #ffeb3b;
+            text-shadow: 0 0 8px rgba(255, 235, 59, 0.8);
         }
 
         #favorites-grid .game-card:hover {
-            box-shadow: 0 0 25px rgba(0, 255, 204, 0.8);
+            box-shadow: 0 0 25px rgba(255, 235, 59, 0.9);
         }
 
         .hidden {
@@ -186,3 +185,74 @@
         <div class="game-card" data-id="tetris">
             <button class="fav-star" onclick="toggleFavorite('tetris')">★</button>
             <a href="tetris.html" style="text-decoration: none; display: flex; flex-direction: column;">
+                <img class="game-icon" src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400" alt="Tetris">
+                <div class="game-title">Tetris</div>
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Background System
+        const backgrounds = [
+            "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986",
+            "https://images.unsplash.com/photo-1579546929518-9e396f3cc809",
+            "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe",
+            "https://images.unsplash.com/photo-1550684848-fac1c5b4e853"
+        ];
+        let currentBgIndex = 0;
+
+        function changeBackground() {
+            currentBgIndex = (currentBgIndex + 1) % backgrounds.length;
+            const newBg = backgrounds[currentBgIndex];
+            document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${newBg}')`;
+        }
+
+        function uploadBackground(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${e.target.result}')`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Tab Masking System
+        let isMasked = false;
+        function toggleMask() {
+            const appleIcon = document.getElementById('apple-icon');
+            const fav32 = document.getElementById('favicon-32');
+            const fav16 = document.getElementById('favicon-16');
+
+            if (!isMasked) {
+                document.title = "About Blank";
+                if(appleIcon) appleIcon.setAttribute('href', 'https://www.google.com/favicon.ico');
+                if(fav32) fav32.setAttribute('href', 'https://www.google.com/favicon.ico');
+                if(fav16) fav16.setAttribute('href', 'https://www.google.com/favicon.ico');
+                isMasked = true;
+            } else {
+                document.title = "Ethan Ws Glorious Website";
+                if(appleIcon) appleIcon.setAttribute('href', '/apple-touch-icon.png');
+                if(fav32) fav32.setAttribute('href', '/favicon-32x32.png');
+                if(fav16) fav16.setAttribute('href', '/favicon-16x16.png');
+                isMasked = false;
+            }
+        }
+
+        // Favorites System
+        let favorites = JSON.parse(localStorage.getItem('arcadeFavorites')) || [];
+
+        function initFavorites() {
+            document.getElementById('favorites-grid').innerHTML = '';
+            
+            if (favorites.length === 0) {
+                document.getElementById('favorites-section').classList.add('hidden');
+            } else {
+                document.getElementById('favorites-section').classList.remove('hidden');
+            }
+
+            const allCards = document.querySelectorAll('#all-games-grid .game-card');
+            allCards.forEach(card => {
+                const
