@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arcade Suite</title>
+    <style>
+        body {
+            background-color: #111;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .nav-back {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #ffeb3b;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .menu-btn {
+            background: #222;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .menu-btn:hover { background: #333; border-color: #ffeb3b; }
+        #game-container {
+            margin: 20px auto;
+            max-width: 400px;
+            background: #000;
+            border: 4px solid #333;
+            border-radius: 10px;
+            padding: 10px;
+            display: none;
+        }
+        canvas {
+            background: #111;
+            display: block;
+            margin: 0 auto;
+            border: 2px solid #222;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="nav-back">⬅ Back to Dashboard</a>
+    <h1>Local Arcade Suite</h1>
+    <p>All games run entirely inside this file code.</p>
+
+    <div id="menu">
+        <button class="menu-btn" onclick="startSnake()">🐍 Play Snake</button>
+        <button class="menu-btn" onclick="startPong()">🏓 Play Pong</button>
+    </div>
+
+    <div id="game-container">
+        <h3 id="game-title">Game</h3>
+        <canvas id="gameCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+        let gameInterval;
+        let currentGame = "";
+
+        function resetCanvas() {
+            clearInterval(gameInterval);
+            document.getElementById("game-container").style.display = "block";
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // --- INTERNAL SNAKE CODE ---
+        function startSnake() {
+            resetCanvas();
+            document.getElementById("game-title").innerText = "Snake (Use Arrow Keys)";
+            currentGame = "snake";
+            let snake = [{x: 200, y: 200}];
+            let dx = 20, dy = 0;
+            let foodX = 100, foodY = 100;
+
+            function draw() {
+                ctx.fillStyle = "#111";
+                ctx.fillRect(0, 0, 400, 400);
+                
+                // Move head
+                const head = {x: snake[0].x + dx, y: snake[0].y + dy};
+                snake.unshift(head);
+                
+                if (head.x === foodX && head.y === foodY) {
+                    foodX = Math.floor(Math.random() * 20) * 20;
+                    foodY = Math.floor(Math.random() * 20) * 20;
+                } else {
+                    snake.pop();
+                }
+
+                // Wall collision check
+                if (head.x < 0 || head.x >= 400 || head.y < 0 || head.y >= 400) {
+                    ctx.fillStyle = "red";
+                    ctx.font = "30px Arial";
+                    ctx.fillText("Game Over", 120, 200);
+                    clearInterval(gameInterval);
+                    return;
+                }
+
+                ctx.fillStyle = "red";
+                ctx.fillRect(foodX, foodY, 18, 18);
+
+                ctx.fillStyle = "lime";
+                snake.forEach(part => ctx.fillRect(part.x, part.y, 18, 18));
+            }
+
+            window.onkeydown = function(e) {
+                if (e.key === "ArrowLeft" && dx === 0) { dx = -20; dy = 0; }
+                if (e.key === "ArrowUp" && dy === 0) { dx = 0; dy = -20; }
+                if (e.key === "ArrowRight" && dx === 0) { dx = 20; dy = 0; }
+                if (e.key === "ArrowDown" && dy === 0) { dx = 0; dy = 20; }
+            };
+            gameInterval = setInterval(draw, 100);
+        }
+
+        // --- INTERNAL PONG CODE ---
+        function startPong() {
+            resetCanvas();
+            document.getElementById("game-title").innerText = "Pong (Use Arrow Keys)";
+            currentGame = "pong";
+            let paddleX = 150, ballX = 200, ballY = 200, ballDX = 4, ballDY = -4;
+
+            function draw() {
+                ctx.fillStyle = "#111";
+                ctx.fillRect(0, 0, 400, 400);
+
+                // Ball physics
+                ballX += ballDX;
+                ballY += ballDY;
+
+                if (ballX <= 0 || ballX >= 390) ballDX = -ballDX;
+                if (ballY <= 0) ballDY = -ballDY;
+
+                // Paddle collision
+                if (ballY >= 370 && ballX >= paddleX && ballX <= paddleX + 80) {
+                    ballDY = -ballDY;
+                } else if (ballY > 400) {
+                    ctx.fillStyle = "red";
+                    ctx.font = "30px Arial";
+                    ctx.fillText("Game Over", 120, 200);
+                    clearInterval(gameInterval);
+                    return;
+                }
+
+                ctx.fillStyle = "white";
+                ctx.fillRect(paddleX, 380, 80, 10); // Paddle
+                ctx.fillRect(ballX, ballY, 10, 10); // Ball
+            }
+
+            window.onkeydown = function(e) {
+                if (e.key === "ArrowLeft" && paddleX > 0) paddleX -= 25;
+                if (e.key === "ArrowRight" && paddleX < 320) paddleX += 25;
+            };
+            gameInterval = setInterval(draw, 16);
+        }
+    </script>
+</body>
+</html>
