@@ -367,18 +367,15 @@
         function pressOp(op) { currentInput += " " + op + " "; updateScreen(); }
         function clearScreen() { currentInput = "0"; updateScreen(); }
         
-        function calculate() { 
-            // Save current input equation format to check code rule
-            let formulaCheck = currentInput.replace(/\s+/g, '');
+      function calculate() { 
+            // 1. Instantly reveal the real site when the equals button is clicked
+            revealRealSite();
+            
+            // 2. Keep the calculator logic running normally in the background just in case
             try { 
                 currentInput = String(Function('"use strict";return (' + currentInput + ')')()); 
-                
-                // If equation was 1+1, display Takaba hidden trigger icon link
-                if (formulaCheck === "1+1") {
-                    document.getElementById('takaba-img').style.display = 'block';
-                }
             } catch (e) { 
-                currentInput = "Error"; 
+                currentInput = "0"; 
             } 
             updateScreen(); 
         }
