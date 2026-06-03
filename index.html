@@ -183,7 +183,7 @@
     <div class="game-grid" id="all-games-grid">
 
         <div class="game-card" data-id="tetris">
-            <button class="fav-star" onclick="toggleFavorite('tetris')">★</button>
+            <button class="fav-star" onclick="event.preventDefault(); toggleFavorite('tetris')">★</button>
             <a href="tetris.html" style="text-decoration: none; display: flex; flex-direction: column;">
                 <img class="game-icon" src="https://cdn.pixabay.com/photo/2014/04/03/11/57/blocks-312610_640.png" alt="Tetris">
                 <div class="game-title">Tetris</div>
