@@ -27,7 +27,6 @@
             position: relative;
         }
 
-        /* Fixed Trigger Image - Full visibility without cropping */
         .secret-trigger {
             position: absolute;
             top: 15px;
@@ -41,20 +40,11 @@
             border: 1px solid #ccc;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: opacity 0.2s;
-            display: none; /* Hidden until triggered */
+            display: none; 
         }
 
-        .secret-trigger:hover {
-            opacity: 0.8;
-        }
-
-        .calc-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            color: #222;
-        }
+        .secret-trigger:hover { opacity: 0.8; }
+        .calc-title { font-size: 2rem; font-weight: 600; margin-top: 40px; margin-bottom: 20px; color: #222; }
 
         .calculator-box {
             background-color: #ffffff;
@@ -79,11 +69,7 @@
             color: #222;
         }
 
-        .calc-buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
+        .calc-buttons { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
 
         .btn {
             background-color: #f1f3f5;
@@ -105,9 +91,7 @@
         .btn.equal:active { background-color: #1557b0; }
 
         /* --- REAL ARCADE WEBSITE STYLES --- */
-        #main-arcade-content {
-            display: none; 
-        }
+        #main-arcade-content { display: none; }
 
         body.arcade-mode {
             margin: 0;
@@ -150,11 +134,7 @@
         .bg-btn:hover, .upload-label:hover, .mask-btn:hover { background-color: #333; }
         #bg-upload { display: none; }
 
-        .search-container {
-            margin-left: auto;
-            padding-right: 20px;
-        }
-
+        .search-container { margin-left: auto; padding-right: 20px; }
         .search-bar {
             background-color: #222;
             border: 1px solid #444;
@@ -166,23 +146,11 @@
             outline: none;
             transition: border-color 0.2s;
         }
-
         .search-bar:focus { border-color: #1a73e8; }
 
-        h2 {
-            text-align: left;
-            max-width: 1200px;
-            margin: 30px auto 10px auto;
-            font-size: 1.8rem;
-            padding-left: 20px;
-        }
+        h2 { text-align: left; max-width: 1200px; margin: 30px auto 10px auto; font-size: 1.8rem; padding-left: 20px; }
 
-        .arcade-screen-container {
-            max-width: 1160px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-
+        .arcade-screen-container { max-width: 1160px; margin: 20px auto; padding: 0 20px; }
         .game-frame-wrapper {
             position: relative;
             width: 100%;
@@ -193,12 +161,7 @@
             border: 2px solid #333;
             box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
-
-        .game-frame-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        .game-frame-wrapper iframe { width: 100%; height: 100%; border: none; }
 
         .game-grid {
             display: grid;
@@ -221,16 +184,8 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.4);
         }
 
-        .game-card:hover {
-            transform: scale(1.06);
-            box-shadow: 0 6px 16px rgba(0,0,0,0.6);
-        }
-
-        .game-icon {
-            width: 100%;
-            aspect-ratio: 1 / 1;
-            object-fit: cover;
-        }
+        .game-card:hover { transform: scale(1.06); box-shadow: 0 6px 16px rgba(0,0,0,0.6); }
+        .game-icon { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
 
         .game-title {
             background-color: #111112;
@@ -337,17 +292,83 @@
         <h2>All Games</h2>
         <div class="game-grid" id="all-games-grid">
 
-            <div class="game-card" data-id="game-one" onclick="loadGame('Game One Title', 'gameone/index.html')">
-                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('game-one')">★</button>
-                <img class="game-icon" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" alt="Game One">
-                <div class="game-title">Game One Title</div>
+            <div class="game-card" data-id="plague-inc" onclick="loadGame('Plague Inc.', 'https://harshulmoon.github.io/iframes/plagueinc.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('plague-inc')">★</button>
+                <img class="game-icon" src="https://images.unsplash.com/photo-1584036561566-baf8f5f1b144?auto=format&fit=crop&w=400&q=80" alt="Plague Inc.">
+                <div class="game-title">Plague Inc.</div>
+            </div>
+
+            <div class="game-card" data-id="subway-surfers" onclick="loadGame('Subway Surfers', 'https://harshulmoon.github.io/iframes/subwaysurfers.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('subway-surfers')">★</button>
+                <img class="game-icon" src="https://harshulmoon.github.io/images/subwaysurfers.png" alt="Subway Surfers">
+                <div class="game-title">Subway Surfers</div>
+            </div>
+
+            <div class="game-card" data-id="eggy-car" onclick="loadGame('Eggy Car', 'https://harshulmoon.github.io/iframes/eggycar.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('eggy-car')">★</button>
+                <img class="game-icon" src="https://harshulmoon.github.io/images/eggycar.png" alt="Eggy Car">
+                <div class="game-title">Eggy Car</div>
+            </div>
+
+            <div class="game-card" data-id="papas-pizzeria" onclick="loadGame('Papa\'s Pizzeria', 'https://harshulmoon.github.io/iframes/papaspizzeria.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('papas-pizzeria')">★</button>
+                <img class="game-icon" src="https://harshulmoon.github.io/images/papaspizzeria.png" alt="Papa's Pizzeria">
+                <div class="game-title">Papa's Pizzeria</div>
+            </div>
+
+            <div class="game-card" data-id="papas-burgeria" onclick="loadGame('Papa\'s Burgeria', 'https://harshulmoon.github.io/iframes/papasburgeria.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('papas-burgeria')">★</button>
+                <img class="game-icon" src="https://cdn.pixabay.com/photo/2014/04/03/11/57/blocks-312610_640.png" alt="Papa's Burgeria">
+                <div class="game-title">Papa's Burgeria</div>
+            </div>
+
+            <div class="game-card" data-id="getaway-shootout" onclick="loadGame('Getaway Shootout', 'https://harshulmoon.github.io/iframes/getawayshootout.html')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('getaway-shootout')">★</button>
+                <img class="game-icon" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" alt="Getaway Shootout">
+                <div class="game-title">Getaway Shootout</div>
+            </div>
+
+            <div class="game-card" data-id="retro-bowl" onclick="loadGame('Retro Bowl', 'https://game321.github.io/game/retro-bowl/')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('retro-bowl')">★</button>
+                <img class="game-icon" src="https://cdn.pixabay.com/photo/2016/09/24/20/05/american-football-1692440_640.jpg" alt="Retro Bowl">
+                <div class="game-title">Retro Bowl</div>
+            </div>
+
+            <div class="game-card" data-id="slope" onclick="loadGame('Slope', 'https://math-play.github.io/slope/')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('slope')">★</button>
+                <img class="game-icon" src="https://cdn.pixabay.com/photo/2016/11/29/06/15/plans-1867745_640.jpg" alt="Slope">
+                <div class="game-title">Slope</div>
+            </div>
+
+            <div class="game-card" data-id="run-3" onclick="loadGame('Run 3', 'https://jojogamer2020.github.io/NeonGames/games/run3/')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('run-3')">★</button>
+                <img class="game-icon" src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?auto=format&fit=crop&w=400&q=80" alt="Run 3">
+                <div class="game-title">Run 3</div>
+            </div>
+
+            <div class="game-card" data-id="1v1-lol" onclick="loadGame('1v1.LOL', 'https://webglmath.github.io/1v1-lol/')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('1v1-lol')">★</button>
+                <img class="game-icon" src="https://cdn.pixabay.com/photo/2013/07/13/12/46/gaming-160293_640.png" alt="1v1.LOL">
+                <div class="game-title">1v1.LOL</div>
+            </div>
+
+            <div class="game-card" data-id="drive-mad" onclick="loadGame('Drive Mad', 'https://pure-gamedev.github.io/drive-mad/')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('drive-mad')">★</button>
+                <img class="game-icon" src="https://cdn.pixabay.com/photo/2016/11/17/12/32/pixel-1831341_640.png" alt="Drive Mad">
+                <div class="game-title">Drive Mad</div>
+            </div>
+
+            <div class="game-card" data-id="minecraft" onclick="loadGame('Minecraft Classic', 'https://classic.minecraft.net/')">
+                <button class="fav-star" onclick="event.stopPropagation(); toggleFavorite('minecraft')">★</button>
+                <img class="game-icon" src="https://images.unsplash.com/photo-1607988795691-3d0147b43231?auto=format&fit=crop&w=400&q=80" alt="Minecraft">
+                <div class="game-title">Minecraft</div>
             </div>
 
         </div>
     </div>
 
     <script>
-        // CALCULATOR ENGINE 
+        // CALCULATOR REVEAL TRIGGERS
         let currentInput = "0";
         const screen = document.getElementById("calc-screen");
 
@@ -358,8 +379,6 @@
         
         function calculate() { 
             let trimmedInput = currentInput.trim();
-            
-            // Trigger image only if the screen reads blank or exactly '0'
             if (trimmedInput === "" || trimmedInput === "0") {
                 document.getElementById('takaba-img').style.display = 'block';
             } else {
@@ -372,22 +391,15 @@
             }
         }
 
-        // SEARCH ENGINE BAR FILTER LOGIC
         function filterGames() {
             let filter = document.getElementById('arcade-search').value.toLowerCase();
             let cards = document.querySelectorAll('#all-games-grid .game-card');
-            
             cards.forEach(card => {
                 let title = card.querySelector('.game-title').innerText.toLowerCase();
-                if (title.includes(filter)) {
-                    card.classList.remove('hidden');
-                } else {
-                    card.classList.add('hidden');
-                }
+                if (title.includes(filter)) { card.classList.remove('hidden'); } else { card.classList.add('hidden'); }
             });
         }
 
-        // REVEAL SYSTEM
         function revealRealSite() {
             document.getElementById('decoy-cover').style.display = 'none';
             document.getElementById('main-arcade-content').style.display = 'block';
@@ -395,7 +407,7 @@
             document.title = "Ethan Ws Glorious Website";
         }
 
-        // IN-PAGE GAME VIEWPORT LOADER
+        // VIEWPORT INTERFACE DISPLAY
         function loadGame(title, url) {
             const playerSection = document.getElementById('live-player-section');
             const viewport = document.getElementById('arcade-viewport');
@@ -407,7 +419,6 @@
             playerSection.scrollIntoView({ behavior: 'smooth' });
         }
 
-        // WALLPAPER CONFIGURATION
         const backgrounds = [
             "https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?auto=format&fit=crop&w=1200&q=80",
             "https://images.unsplash.com/photo-1579546929518-9e396f3cc809?auto=format&fit=crop&w=1200&q=80"
@@ -416,7 +427,6 @@
         function changeBackground() { currentBgIndex = (currentBgIndex + 1) % backgrounds.length; document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${backgrounds[currentBgIndex]}')`; }
         function uploadBackground(event) { const file = event.target.files[0]; if (file) { const reader = new FileReader(); reader.onload = function(e) { document.body.style.backgroundImage = `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('${e.target.result}')`; }; reader.readAsDataURL(file); } }
 
-        // MASK TAB INTERFACE
         let isMasked = false;
         function toggleMask() {
             const appleIcon = document.getElementById('apple-icon');
@@ -434,13 +444,11 @@
             }
         }
 
-        // LOCAL FAVORITES STORAGE ENGINE
         let favorites = JSON.parse(localStorage.getItem('arcadeFavorites')) || [];
 
         function initFavorites() {
             const grid = document.getElementById('favorites-grid');
             grid.innerHTML = '';
-            
             if (favorites.length === 0) {
                 document.getElementById('favorites-section').classList.add('hidden');
             } else {
@@ -453,12 +461,8 @@
                 if (favorites.includes(id)) {
                     card.classList.add('is-favorite');
                     const clone = card.cloneNode(true);
-                    
                     clone.onclick = card.onclick;
-                    clone.querySelector('.fav-star').onclick = function(e) {
-                        e.stopPropagation();
-                        toggleFavorite(id);
-                    };
+                    clone.querySelector('.fav-star').onclick = function(e) { e.stopPropagation(); toggleFavorite(id); };
                     grid.appendChild(clone);
                 } else {
                     card.classList.remove('is-favorite');
