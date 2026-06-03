@@ -27,7 +27,7 @@
             position: relative;
         }
 
-        /* Hidden Trigger Image - Only reveals when password condition met */
+      /* Fixed Trigger Image - Shows the full image without cropping */
         .secret-trigger {
             position: absolute;
             top: 15px;
@@ -36,11 +36,12 @@
             height: 65px;
             border-radius: 8px;
             cursor: pointer;
-            object-fit: cover;
+            object-fit: contain; /* Changed from cover to contain */
+            background-color: #fff; /* Adds a clean white background behind the image if needed */
             border: 1px solid #ccc;
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             transition: opacity 0.2s;
-            display: none; /* Hidden by default */
+            display: none; 
         }
 
         .secret-trigger:hover {
